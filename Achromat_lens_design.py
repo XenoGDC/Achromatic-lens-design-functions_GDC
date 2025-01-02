@@ -56,14 +56,14 @@ def R1(fr, nd):
     R1_temp = fr*(nd - 1)
     return R1_temp
 
-# def lamda_min(d,na):
+# def lambda_min(d,na):
 
 
 def lambda_min(R, d, f):
     '''Takes the units for the wavelength d in microns'''
     M_temp = M(R, d, f)
     lambda_min_temp = d*(f+M_temp*d)/R
-    # lamda_min_temp = d*1e-6 / na
+    # lambda_min_temp = d*1e-6 / na
     return lambda_min_temp
 
 # def M(R,d,na):
@@ -122,7 +122,7 @@ class lens():
             self.R1 = R1(self.fr, n(lambd_d))
             self.fd = fd(self.Vr, self.Vd, self.f)
             # self.nad = na(self.R,self.fd)
-            self.lamda_min = lambda_min(R=self.R, d=lambd_d, f=self.fd)
+            self.lambda_min = lambda_min(R=self.R, d=lambd_d, f=self.fd)
             self.M = M(R=self.R, d=lambd_d, f=self.fd)
         # If the lens is not set as an achromat, the parameters will be set from the basis that the radius of curvature for the refractive lens element
         # is 5 times the radius of the lens, so to keep to the thin lens approximation
@@ -131,7 +131,7 @@ class lens():
             self.fr = fr_calc(lambd_d, self.R1)
             self.fd = 1/(1/f - 1/self.fr)
             # self.nad = na(self.R,self.fd)
-            self.lamda_min = lambda_min(R=self.R, d=lambd_d, f=self.fd)
+            self.lambda_min = lambda_min(R=self.R, d=lambd_d, f=self.fd)
             self.M = M(R=self.R, d=lambd_d, f=self.fd)
 
     def print_vals(self):
@@ -144,17 +144,17 @@ class lens():
         print(f'fr = {self.fr*100} cm')
         print(f'fd = {self.fd*100} cm')
         # print(f'NA_d = {self.nad}')
-        print(f'lambda_min = {self.lamda_min*1e6} um')
+        print(f'lambda_min = {self.lambda_min*1e6} um')
         print(f'M = {self.M}')
 
     def chromatic_focals(self, lambd_c=lambd_c, lambd_f=lambd_f):
         '''Returns the focal lengths at the two wavelengths'''
         frc = fr_calc(lambd_c, self.R1)
-        fdc = fd_calc(lambd_c, self.M, self.R1, self.lamda_min)
+        fdc = fd_calc(lambd_c, self.M, self.R1, self.lambda_min)
         fc_total = f_total(frc, fdc)
 
         frf = fr_calc(lambd_f, self.R1)
-        fdf = fd_calc(lambd_f, self.M, self.R1, self.lamda_min)
+        fdf = fd_calc(lambd_f, self.M, self.R1, self.lambda_min)
         ff_total = f_total(frf, fdf)
 
         return fc_total, ff_total
