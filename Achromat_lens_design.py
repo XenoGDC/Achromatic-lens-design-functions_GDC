@@ -161,7 +161,7 @@ class lens():
 
     def chromatic_aberration(self):
         '''Returns the chromatic aberration of the lens focal lengths at the lens' specified wavelengths'''
-        fc_total, ff_total = self.chromatic_focals
+        fc_total, ff_total = self.chromatic_focals()
 
         chromatic_aberration = fc_total - ff_total
         return chromatic_aberration
